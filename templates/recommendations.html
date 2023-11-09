@@ -7,21 +7,45 @@
     <h1>Recommendations Based on {{ selected_movie }}</h1>
     
     <!-- Mostrar el póster de la película seleccionada -->
-    <img src="{{ backdrop_url }}" alt="Backdrop Image" width="600">
+    <img src="{{ selected_movie_poster_path }}" alt="{{ selected_movie }} Movie Poster" width="300">
+    
+    <!-- Mostrar géneros de la película seleccionada -->
+    <h2>Genres</h2>
+    <ul>
+        {% for genre in selected_movie_genres %}
+            <li>{{ genre }}</li>
+        {% endfor %}
+    </ul>
     
     <h2>Movies of the Same Genre</h2>
     <ul>
-        {% for movie in genre_filtered_movies.iterrows() %}
-            <li>{{ movie[1]['title'] }}</li>
+        <!-- Asegúrate de que la ruta a la imagen y los géneros sean accesibles en el diccionario de la película -->
+        {% for movie in genre_filtered_movies %}
+            <li>
+                <img src="https://image.tmdb.org/t/p/w200{{ movie['poster_path'] }}" alt="{{ movie['title'] }} Movie Poster" width="100">
+                {{ movie['title'] }}
+                <ul>
+                    {% for genre in movie['genre_names'] %}
+                        <li>{{ genre }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
         {% endfor %}
     </ul>
     
     <h2>Recommended Movies</h2>
     <ul>
         {% for movie in recommended_movies %}
-            <li>{{ movie }}</li>
+            <li>
+                <img src="https://image.tmdb.org/t/p/w200{{ movie['poster_path'] }}" alt="{{ movie['title'] }} Movie Poster" width="100">
+                {{ movie['title'] }}
+                <ul>
+                    {% for genre in movie['genre_names'] %}
+                        <li>{{ genre }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
         {% endfor %}
     </ul>
 </body>
 </html>
-
