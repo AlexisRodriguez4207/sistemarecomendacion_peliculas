@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recomendaciones de Películas</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Recommendations</title>
 </head>
-<body class="bg-gray-900 text-white font-sans">
-    <header class="bg-black p-4">
-        <div class="container mx-auto">
-            <h1 class="text-2xl font-semibold">Recomendaciones de Películas</h1>
-        </div>
-    </header>
-
-    <main class="container mx-auto my-8">
-        <h2 class="text-xl font-semibold mb-4">Recomendaciones basadas en tus selecciones:</h2>
-        <ul class="list-disc pl-8">
-            {% for movie in recommended_movies %}
-            <li class="text-lg">{{ movie }}</li>
-            {% endfor %}
-            <!-- asdfghjk -->
-        </ul>
-    </main>
+<body>
+    <h1>Recommendations Based on {{ selected_movie }}</h1>
+    
+    <!-- Mostrar el póster de la película seleccionada -->
+    <img src="{{ backdrop_url }}" alt="Backdrop Image" width="600">
+    
+    <h2>Movies of the Same Genre</h2>
+    <ul>
+        {% for movie in genre_filtered_movies.iterrows() %}
+            <li>{{ movie[1]['title'] }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Recommended Movies</h2>
+    <ul>
+        {% for movie in recommended_movies %}
+            <li>{{ movie }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
+

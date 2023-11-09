@@ -180,6 +180,8 @@ cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 # Ruta para mostrar recomendaciones al usuario
 @app.route('/')
 def index():
+    global full_backdrop_url  # Indica que vas a utilizar la variable global
+
     random_movies = movies.sample(n=20)
     user_selection = random_movies.sample(n=5)['title']
     backdrop_url = get_random_backdrop()
@@ -187,30 +189,42 @@ def index():
     
     return render_template('index.html', random_movies=random_movies, user_selection=user_selection, backdrop_url=full_backdrop_url)
 
+
+# Función para obtener recomendaciones de películas similares
+def get_recommendations(movie_title, cosine_sim=cosine_sim):
+    idx = movies[movies['title'] == movie_title].index[0]
+    sim_scores = list(enumerate(cosine_sim[idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    sim_scores = sim_scores[1:11]
+    movie_indices = [i[0] for i in sim_scores]
+    return movies['title'].iloc[movie_indices]
+
 # Ruta para mostrar recomendaciones
 @app.route('/recommendations', methods=['POST'])
 def recommendations():
     selected_movies = request.form.getlist('selected_movies')
+    
+    # Obtener el género de la película seleccionada
+    selected_movie = selected_movies[0]  # Suponiendo que solo se selecciona una película
+    selected_movie_info = tmdb_request('search/movie', {'query': selected_movie})
+    
+    if selected_movie_info and 'results' in selected_movie_info:
+        # Obtener el primer resultado (asumimos que es el correcto)
+        selected_movie_genre_ids = selected_movie_info['results'][0]['genre_ids']
+        
+        # Filtrar películas por género
+        genre_filtered_movies = movies[movies['genre_ids'].apply(lambda x: any(genre_id in selected_movie_genre_ids for genre_id in x))]
 
-    def get_recommendations(movie_title, cosine_sim=cosine_sim):
-        idx = movies[movies['title'] == movie_title].index[0]
-        sim_scores = list(enumerate(cosine_sim[idx]))
-        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = sim_scores[1:11]
-        movie_indices = [i[0] for i in sim_scores]
-        return movies['title'].iloc[movie_indices]
+        # Resto del código para obtener recomendaciones
+        recommendations = []
+        for movie_title in selected_movies:
+            recommendations.extend(get_recommendations(movie_title))
+        
+        recommendations = list(set(recommendations) - set(selected_movies))
+        recommended_movies = recommendations[:10]
 
-    recommendations = []
-    for movie_title in selected_movies:
-        recommendations.extend(get_recommendations(movie_title))
-
-    recommendations = list(set(recommendations) - set(selected_movies))
-    recommended_movies = recommendations[:10]
-
-    return render_template('recommendations.html', recommended_movies=recommended_movies)
+        # Pasar datos a la plantilla HTML
+        return render_template('recommendations.html', recommended_movies=recommended_movies, backdrop_url=full_backdrop_url, selected_movie=selected_movie, genre_filtered_movies=genre_filtered_movies)
 
 if __name__ == '__main__':
     app.run(debug=True)
-#Comentario de prueba Rosales
-# comentario 2 
-
