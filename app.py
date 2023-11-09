@@ -211,5 +211,6 @@ def recommendations():
 
 if __name__ == '__main__':
     app.run(debug=True)
-#prueba sabino
 
+
+ main
