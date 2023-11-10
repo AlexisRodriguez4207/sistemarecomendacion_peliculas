@@ -1,15 +1,123 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Recommendations</title>
-</head>
-<body>
-    <h1>Recommendations Based on {{ selected_movie }}</h1>
-    
-    <!-- Mostrar el póster de la película seleccionada -->
+  <head>
+    <title>Recomendaciones de Peliculas</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-900 text-white font-sans">
+    <style>
+      .hero {
+        background: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0.7) 0%,
+            rgba(0, 0, 0, 0.3) 100%
+          ),
+          url("{{ backdrop_url }}") no-repeat center center;
+        background-size: cover;
+        height: 500px; /* Ajusta la altura del hero según tus necesidades */
+        display: flex;
+        align-items: center;
+        position: relative; /* Para el posicionamiento absoluto del título */
+      }
+    </style>
+    <header class="bg-gradient-to-none from-red-900 to-transparent p-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-semibold">Recomendaciones de Películas</h1>
+        <nav>
+          <ul class="flex">
+            <li class="mr-6">
+              <a href="#" class="text-white hover:text-gray-400">Inicio</a>
+            </li>
+            <li class="mr-6">
+              <a href="#" class="text-white hover:text-gray-400">Películas</a>
+            </li>
+            <li>
+              <a href="#" class="text-white hover:text-gray-400">Contacto</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="container mx-auto my-8">
+      <!-- <h1>Recomendaciones Basadas en {{ selected_movie }}</h1>
+      <img
+        src="{{ selected_movie_poster_path }}"
+        alt="{{ selected_movie }} Movie Poster"
+        width="300"
+      /> -->
+      <br />
+      <h2 class="text-2xl font-semibold text-center">
+        Recomendaciones Basadas en tus Elecciones
+      </h2>
+      <br />
+      <ul
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      >
+        {% for movie in recommended_movies %}
+        <li>
+          <div class="relative group">
+            <div
+              class="movie-card p-4 bg-gray-900 border border-gray-700 transition duration-300 group-hover:bg-gray-700 group-hover:border-red-600"
+            >
+              <img
+                src="https://image.tmdb.org/t/p/w400{{ movie['poster_path'] }}"
+                alt="{{ movie['title'] }} Movie Poster"
+                class="w-full h-auto hero"
+              />
+              <p class="text-sm text-center mt-2">{{ movie['title'] }}</p>
+            </div>
+          </div>
+
+          <ul>
+            {% for genre in movie['genre_names'] %}
+            <li>{{ genre }}</li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    </main>
+
+    <!-- <img
+      src="{{ selected_movie_poster_path }}"
+      alt="{{ selected_movie }} Movie Poster"
+      width="300"
+    />
+    <h2>Genres</h2>
+    <ul>
+      {% for genre in selected_movie_genres %}
+      <li>{{ genre }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>Movies of the Same Genre</h2>
+    <ul>
+       Asegúrate de que la ruta a la imagen y los géneros sean accesibles en el
+      diccionario de la película  
+      {% for movie in genre_filtered_movies %}
+      <li>
+        <img
+          src="https://image.tmdb.org/t/p/w200{{ movie['poster_path'] }}"
+          alt="{{ movie['title'] }} Movie Poster"
+          width="100"
+        />
+        {{ movie['title'] }}
+        <ul>
+          {% for genre in movie['genre_names'] %}
+          <li>{{ genre }}</li>
+          {% endfor %}
+        </ul>
+      </li>
+      {% endfor %}
+    </ul> -->
+
+    <!-- Mostrar el póster de la película seleccionada 
     <img src="{{ selected_movie_poster_path }}" alt="{{ selected_movie }} Movie Poster" width="300">
     
-    <!-- Mostrar géneros de la película seleccionada -->
+     Mostrar géneros de la película seleccionada 
     <h2>Genres</h2>
     <ul>
         {% for genre in selected_movie_genres %}
@@ -19,7 +127,7 @@
     
     <h2>Movies of the Same Genre</h2>
     <ul>
-        <!-- Asegúrate de que la ruta a la imagen y los géneros sean accesibles en el diccionario de la película -->
+         Asegúrate de que la ruta a la imagen y los géneros sean accesibles en el diccionario de la película 
         {% for movie in genre_filtered_movies %}
             <li>
                 <img src="https://image.tmdb.org/t/p/w200{{ movie['poster_path'] }}" alt="{{ movie['title'] }} Movie Poster" width="100">
@@ -46,6 +154,6 @@
                 </ul>
             </li>
         {% endfor %}
-    </ul>
-</body>
+    </ul> -->
+  </body>
 </html>
