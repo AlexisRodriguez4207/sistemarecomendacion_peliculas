@@ -270,7 +270,7 @@ def recommendations():
                             recommendations_list.append(movie)
 
         # Ordenar por popularidad y tomar los primeros 10
-        recommendations_list = sorted(recommendations_list, key=lambda x: x['popularity'], reverse=True)[:10]
+        recommendations_list = sorted(recommendations_list, key=lambda x: x['popularity'], reverse=True)[:12]
 
         return render_template('recommendations.html', recommended_movies=recommendations_list, selected_movie_genres=selected_movie_genres, selected_movie_poster_path=f"https://image.tmdb.org/t/p/w500{selected_movie_poster_path}")
 
