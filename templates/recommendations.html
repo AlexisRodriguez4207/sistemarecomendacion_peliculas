@@ -53,6 +53,13 @@
         Recomendaciones Basadas en tus Elecciones
       </h2>
       <br />
+      <h3 class="text-lg font-semibold text-gray-400">
+        Basado en los Generos: {% for genre in selected_movie_genres %} {{ genre
+        }}, {% endfor %}
+      </h3>
+
+      <br />
+
       <ul
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
       >
