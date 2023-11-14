@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\BALAMRUSH\Desktop\IA\sistemarecomendacion_peliculas\myenv"
+VIRTUAL_ENV="C:\Users\Madeline\Desktop\peliculas\sistemarecomendacion_peliculas\myenv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

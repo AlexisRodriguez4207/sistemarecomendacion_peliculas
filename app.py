@@ -252,6 +252,9 @@ def index():
     movie_details = tmdb_request(f'movie/{hero_movie["id"]}', language='es-ES')
     hero_movie_synopsis = movie_details['overview'] if movie_details else ''
 
+    # Puedes agregar más detalles si lo deseas
+    hero_movie_director = movie_details.get('director', 'Director Desconocido')
+
     hero_movie_backdrop_url = f"https://image.tmdb.org/t/p/w1280{hero_movie['backdrop_path']}" if hero_movie['backdrop_path'] else None
     hero_movie_poster_path = f"https://image.tmdb.org/t/p/w500{hero_movie['poster_path']}"
     
@@ -259,8 +262,10 @@ def index():
                            random_movies=random_movies, 
                            hero_movie_title=hero_movie['title'], 
                            hero_movie_synopsis=hero_movie_synopsis, 
+                           hero_movie_director=hero_movie_director,  # Puedes agregar más detalles aquí
                            hero_movie_poster_path=hero_movie_poster_path,
                            hero_movie_backdrop_url=hero_movie_backdrop_url)
+
 
 # Función para obtener recomendaciones de películas similares
 def get_recommendations(movie_title, cosine_sim=cosine_sim):
